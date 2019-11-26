@@ -71,14 +71,20 @@ module.exports = function (ctx) {
         'QPopupProxy',
         'QTime',
         'QForm',
+        'QBanner',
+        'QSelect',
+        'QScrollArea',
+        'QSeparator',
+        'QToggle',
+        'QSlider',
       ],
 
       directives: [
-        'Ripple', 'ClosePopup'
+        'Ripple', 'ClosePopup', 'TouchHold',
       ],
 
       // Quasar plugins
-      plugins: ['Dialog']
+      plugins: ['Dialog', 'LocalStorage']
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
@@ -108,7 +114,7 @@ module.exports = function (ctx) {
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    animations: ['zoomIn', 'zoomOut'],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {

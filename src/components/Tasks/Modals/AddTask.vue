@@ -8,7 +8,6 @@
           <modal-due-date :dueDate.sync="taskToSubmit.dueDate" />
           <modal-due-time v-if="taskToSubmit.dueDate" :dueTime.sync="taskToSubmit.dueTime" />
         </div>
-        <pre>{{taskToSubmit}}</pre>
       </q-card-section>
       <modal-button />
     </q-form>

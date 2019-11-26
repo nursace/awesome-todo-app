@@ -1,14 +1,13 @@
 <template>
   <q-card>
     <modal-header>Edit Task</modal-header>
-    <q-form @submit="onSubmit">
+    <q-form @submit.prevent="submitEditForm">
       <q-card-section>
         <div class="q-gutter-md" style="max-width: 500px">
           <modal-task-name ref="modalTaskRef" :name.sync="taskToSubmit.name" />
           <modal-due-date :dueDate.sync="taskToSubmit.dueDate" />
           <modal-due-time v-if="taskToSubmit.dueDate" :dueTime.sync="taskToSubmit.dueTime" />
         </div>
-        <pre>{{taskToSubmit}}</pre>
       </q-card-section>
       <modal-button />
     </q-form>
@@ -26,8 +25,13 @@ import ModalButton from "./Shared/ModalButton";
 
 export default {
 
+  props:["task", "id"],
 
-
+  data() {
+    return {
+      taskToSubmit: {}
+    }
+  },
 
   components: {
     "modal-header": ModalHeader,
@@ -35,6 +39,20 @@ export default {
     "modal-due-date": ModalDueDate,
     "modal-due-time": ModalDueTime,
     "modal-button": ModalButton
-  }
+  },
+
+
+  methods: {
+    ...mapActions("tasks", ["updateTask"]),
+    submitEditForm () {
+      this.updateTask({id: this.id, updates: this.taskToSubmit}),
+      this.$emit('close')
+    }
+  },
+
+  mounted() {
+    this.taskToSubmit = Object.assign({}, this.task)
+  },
+
 };
 </script>

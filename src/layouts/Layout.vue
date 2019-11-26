@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpr lFf">
+  <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title class="absolute-center">Awesome Todo App</q-toolbar-title>
@@ -74,10 +74,10 @@ export default {
           to: "/settings"
         },
         {
-          label: "About",
-          labelCaption: "Who we are",
-          icon: "info",
-          to: "/about"
+          label: "Help",
+          labelCaption: "How to use awesome app todo",
+          icon: "help",
+          to: "/help"
         }
       ]
     };
