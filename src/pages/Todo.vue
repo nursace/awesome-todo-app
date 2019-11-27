@@ -11,7 +11,7 @@
         >No search result</p>
       </transition>
 
-      <q-scroll-area class="q-scroll-area-tasks">
+      <!-- <q-scroll-area class="q-scroll-area-tasks"> -->
         <tasks-todo v-if="Object.keys(tasksToDo).length" :tasksToDo="tasksToDo" />
         <no-tasks
           v-if="!search && !Object.keys(tasksToDo).length"
@@ -20,7 +20,7 @@
           v-if="Object.keys(tasksCompleted).length"
           :tasksCompleted="tasksCompleted"
         />
-      </q-scroll-area>
+      <!-- </q-scroll-area> -->
 
       <div class="absolute-bottom text-center no-pointer-events">
         <q-btn

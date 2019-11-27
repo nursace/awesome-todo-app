@@ -3,6 +3,15 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title class="absolute-center">Awesome Todo App</q-toolbar-title>
+        <q-btn
+          flat
+          dense
+          icon-right="account_circle"
+          label="login"
+          to="/auth"
+          class="absolute-right q-pr-md"
+          
+        />
       </q-toolbar>
     </q-header>
 
@@ -72,12 +81,6 @@ export default {
           labelCaption: "Manage your setting",
           icon: "settings",
           to: "/settings"
-        },
-        {
-          label: "Help",
-          labelCaption: "How to use awesome app todo",
-          icon: "help",
-          to: "/help"
         }
       ]
     };

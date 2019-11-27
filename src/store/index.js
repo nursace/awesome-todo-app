@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import tasks from './store-tasks'
 import storeSettings from './store-settings'
+import storeFirebase from './store-firebase'
 
 // import example from './module-example'
 
@@ -18,6 +19,7 @@ export default function (/* { ssrContext } */) {
     modules: {
       tasks,
       storeSettings,
+      storeFirebase,
     },
 
     // enable strict mode (adds overhead!)
