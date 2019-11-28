@@ -4,14 +4,24 @@
       <q-toolbar>
         <q-toolbar-title class="absolute-center">Awesome Todo App</q-toolbar-title>
         <q-btn
+          v-if="!loggedIn"
           flat
           dense
           icon-right="account_circle"
-          label="login"
+          label="Login"
           to="/auth"
           class="absolute-right q-pr-md"
-          
         />
+        <q-btn
+          @click="logoutUser"
+          v-if="loggedIn"
+          flat
+          dense
+          icon-right="account_circle"
+          label="Logout"
+          class="absolute-right q-pr-md"
+        />
+
       </q-toolbar>
     </q-header>
 
@@ -63,8 +73,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex'
 export default {
   name: "MyLayout",
+
+  computed: {
+    ...mapState("storeFirebase", ["loggedIn"]),
+  },
+
+  methods: {
+    ...mapActions('storeFirebase', ['logoutUser'])
+  },
 
   data() {
     return {

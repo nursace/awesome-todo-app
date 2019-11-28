@@ -1,6 +1,9 @@
-var firebase = require("firebase/app");
+import * as firebase from 'firebase/app'
 
-require("firebase/auth");
+import 'firebase/auth'
+import 'firebase/database'
+
+
 
 var firebaseConfig = {
     apiKey: "AIzaSyDuoCmDq-EK7Aw6R2zwoot1ucxXPiKkNvU",
@@ -15,5 +18,6 @@ var firebaseConfig = {
 
  let firebaseApp = firebase.initializeApp(firebaseConfig)
  let firebaseAuth = firebaseApp.auth()
+ let firebaseDb = firebaseApp.database()
 
- export { firebaseAuth }
+ export { firebaseAuth, firebaseDb }

@@ -10,7 +10,6 @@
     </div>
     <div class="row q-mb-md">
       <q-input
-        :rules="[ val => isValidEmailAddress(val) || 'Please enter a valid email address']"
         lazy-rules
         outlined
         v-model="formData.email"

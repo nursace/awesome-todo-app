@@ -1,37 +1,45 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height column">
-      <div class="row q-mb-lg">
-        <search />
-        <sort />
-      </div>
-      <transition appear enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
-        <p
-          v-if="search && !Object.keys(tasksToDo).length && !Object.keys(tasksCompleted).length"
-        >No search result</p>
-      </transition>
+      <template v-if="tasksDownloaded">
+        <div class="row q-mb-lg">
+          <search />
+          <sort />
+        </div>
+        <transition
+          appear
+          enter-active-class="animated zoomIn"
+          leave-active-class="animated zoomOut"
+        >
+          <p
+            v-if="search && !Object.keys(tasksToDo).length && !Object.keys(tasksCompleted).length"
+          >No search result</p>
+        </transition>
 
-      <!-- <q-scroll-area class="q-scroll-area-tasks"> -->
-        <tasks-todo v-if="Object.keys(tasksToDo).length" :tasksToDo="tasksToDo" />
-        <no-tasks
-          v-if="!search && !Object.keys(tasksToDo).length"
-        />
-        <tasks-completed
-          v-if="Object.keys(tasksCompleted).length"
-          :tasksCompleted="tasksCompleted"
-        />
-      <!-- </q-scroll-area> -->
+        <q-scroll-area class="q-scroll-area-tasks">
+          <tasks-todo v-if="Object.keys(tasksToDo).length" :tasksToDo="tasksToDo" />
+          <no-tasks v-if="!search && !Object.keys(tasksToDo).length" />
+          <tasks-completed
+            v-if="Object.keys(tasksCompleted).length"
+            :tasksCompleted="tasksCompleted"
+          />
+        </q-scroll-area>
 
-      <div class="absolute-bottom text-center no-pointer-events">
-        <q-btn
-          @click="showAddTask = true"
-          round
-          color="primary"
-          size="24px"
-          icon="add"
-          class="addButton all-pointer-events"
-        />
-      </div>
+        <div class="absolute-bottom text-center no-pointer-events">
+          <q-btn
+            @click="showAddTask = true"
+            round
+            color="primary"
+            size="24px"
+            icon="add"
+            class="addButton all-pointer-events"
+          />
+        </div>
+      </template>
+
+      <template v-else>
+        <p>Loading...</p>
+      </template>
 
       <q-dialog v-model="showAddTask">
         <add-task @closeAddTask="showAddTask=false" />
@@ -58,7 +66,7 @@ export default {
   },
   computed: {
     ...mapGetters("tasks", ["tasksToDo", "tasksCompleted"]),
-    ...mapState("tasks", ["search"]),
+    ...mapState("tasks", ["search", "tasksDownloaded"])
   },
   components: {
     task: Task,
