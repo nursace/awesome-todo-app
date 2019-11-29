@@ -51,17 +51,18 @@
 import { mapActions, mapState } from "vuex";
 import EditTask from "./Modals/EditTask";
 import { date } from "quasar";
+import { log } from 'util';
 const { addToDate } = date;
 
 export default {
   data() {
     return {
-      showEdit: false
+      showEdit: false,
     };
   },
-  props: ["task", "id"],
+  props: ["id", 'task'],
   methods: {
-    ...mapActions("tasks", ["updateTask", "deleteTask"]),
+    ...mapActions("tasks", ["updateTask", "deleteTask", 'getTaskById']),
     propmtToDelete(id) {
       this.$q
         .dialog({
@@ -87,10 +88,6 @@ export default {
     niceDate(value) {
       return date.formatDate(value, "MMM D");
     },
-
-
-
-
     searchHighlights(value, search) {
       if (search) {
         let searchRegExp = new RegExp(search, 'ig')

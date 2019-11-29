@@ -21,7 +21,6 @@ export default {
 
     ...mapGetters("storeSettings", ["settings"]),
     showTasksInOneList() {
-      console.log(this.settings.showTasksInOneList)
       return this.settings.showTasksInOneList
     }
   },

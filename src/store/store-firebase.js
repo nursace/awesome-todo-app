@@ -48,10 +48,11 @@ const actions = {
         commit("setLoggedIn", true);
         this.$router.replace("/").catch(err => {});
 
-        dispatch('tasks/fbReadData', null, {root: true})
-
+        dispatch("tasks/fbReadData", null, { root: true });
       } else {
+        commit("tasks/clearTasks", null, { root: true });
         commit("setLoggedIn", false);
+        commit("tasks/setTasksDownloaded", false, { root: true });
         this.$router.replace("/auth").catch(err => {});
       }
     });

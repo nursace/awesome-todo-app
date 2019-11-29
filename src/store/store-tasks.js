@@ -1,28 +1,10 @@
 import Vue from "vue";
-import { uid } from "quasar";
+import { uid, Notify } from "quasar";
 import { firebaseDb, firebaseAuth } from "../boot/firebase";
+import { showErrorMessage } from "../functions/show-error-message";
 
 const state = {
-  tasks: {
-    // 'ID1': {
-    //   name: "Go to shop",
-    //   completed: false,
-    //   dueDate: "2019/11/08",
-    //   dueTime: "08:00"
-    // },
-    // 'ID2': {
-    //   name: "Get bananas",
-    //   completed: false,
-    //   dueDate: "2019/11/03",
-    //   dueTime: "15:05"
-    // },
-    // 'ID3': {
-    //   name: "Get apples",
-    //   completed: false,
-    //   dueDate: "2019/11/24",
-    //   dueTime: "16:10"
-    // },
-  },
+  tasks: {},
   search: "",
   sort: "dueDate",
   tasksDownloaded: false
@@ -39,6 +21,10 @@ const mutations = {
 
   addTask(state, payload) {
     Vue.set(state.tasks, payload.id, payload.task);
+  },
+
+  clearTasks(state) {
+    state.tasks = {};
   },
   setSearch(state, value) {
     state.search = value;
@@ -81,6 +67,18 @@ const actions = {
     let userId = firebaseAuth.currentUser.uid;
     let userTasks = firebaseDb.ref("tasks/" + userId);
 
+    //initial check for data
+    userTasks.once(
+      "value",
+      snapshot => {
+        commit("setTasksDownloaded", true);
+      },
+      error => {
+        showErrorMessage(error.message);
+        this.$router.replace("/auth");
+      }
+    );
+
     userTasks.on("child_added", snapshot => {
       let task = snapshot.val();
       let payload = {
@@ -109,20 +107,40 @@ const actions = {
     let userId = firebaseAuth.currentUser.uid;
     let taskId = payload.id;
     let taskRef = firebaseDb.ref("tasks/" + userId + "/" + taskId);
-    taskRef.set(payload.task);
+    taskRef.set(payload.task, error => {
+      if (error) {
+        showErrorMessage(error.message);
+      } else {
+        Notify.create("Task was added!");
+      }
+    });
   },
 
   fbUpdateTask({}, payload) {
     let userId = firebaseAuth.currentUser.uid;
     let taskId = payload.id;
     let taskRef = firebaseDb.ref("tasks/" + userId + "/" + taskId);
-    taskRef.update(payload.updates);
+    taskRef.update(payload.updates, error => {
+      if (error) {
+        showErrorMessage(error.message);
+      } else {
+        let keys = Object.keys(payload.updates)
+        if (!(keys.includes('completed') && keys.length === 1))
+          Notify.create("Task updated!");
+      }
+    });
   },
 
   fbDeleteTask({}, taskId) {
     let userId = firebaseAuth.currentUser.uid;
     let taskRef = firebaseDb.ref("tasks/" + userId + "/" + taskId);
-    taskRef.remove();
+    taskRef.remove(error => {
+      if (error) {
+        showErrorMessage(error.message);
+      } else {
+        Notify.create("Task was deleted1");
+      }
+    });
   }
 };
 
@@ -130,7 +148,6 @@ const getters = {
   tasksSorted: state => {
     let tasksSorted = {},
       keysOrdered = Object.keys(state.tasks);
-
     keysOrdered.sort((a, b) => {
       let taskAProp = state.tasks[a][state.sort].toLowerCase(),
         taskBProp = state.tasks[b][state.sort].toLowerCase();
@@ -183,7 +200,7 @@ const getters = {
     });
 
     return tasks;
-  }
+  },
 };
 
 export default {

@@ -80,6 +80,7 @@ module.exports = function (ctx) {
         'QSlider',
         'QTabPanels',
         'QTabPanel',
+        'QSpinner'
       ],
 
       directives: [
@@ -87,7 +88,13 @@ module.exports = function (ctx) {
       ],
 
       // Quasar plugins
-      plugins: ['Dialog', 'LocalStorage', 'Loading']
+      plugins: ['Dialog', 'LocalStorage', 'Loading', 'Notify'],
+
+      config: {
+        notify: {
+
+        }
+      }
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
